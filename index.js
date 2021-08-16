@@ -85,7 +85,7 @@ async function addToCart(e) {
     let prod_Id = e.target.getAttribute('value')
     let basketDeck = document.querySelector('.basketDeck')
     let product = await getProduct(prod_Id)
-    total = total + product.price
+    total = total + parseFloat(product.price)
 
     // Add to basket Array
     basketItems.push(product)
@@ -137,7 +137,7 @@ function removeFromCart(e) {
     basketItems.forEach((product, index) => {
         if (product._id === itemId) {
             basketItems.splice(index, 1)
-            total = total - product.price
+            total = total - parseFloat(product.price)
             updateTotalPrice(total)
         }
     })
