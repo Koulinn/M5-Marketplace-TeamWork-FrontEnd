@@ -15,17 +15,18 @@ function getProducts() {
         name: document.getElementById('prod_name').value,
         description: document.getElementById('prod_descr').value,
         brand: document.getElementById('prod_brand').value,
-        imageUrl: document.getElementById('prod_img').value,
-        price: document.getElementById('prod_price').value
+        price: document.getElementById('prod_price').value,
+        category: document.getElementById('prod_category').value
     }
     let productStringified = JSON.stringify(product)
     return productStringified
-
 }
-
-
-
-
+function getProductImage() {
+    let productFile = new FormData()
+    let imageUrlFile= document.getElementById('prod_img').files[0]
+    productFile.append("imageUrl",imageUrlFile)
+    return productFile
+}
 
 async function insertProduct(e) {
     formValidation()
@@ -34,34 +35,49 @@ async function insertProduct(e) {
         if (method === "POST") {
 
             let product = getProducts()
-            let serverRes = await fetch("https://striveschool-api.herokuapp.com/api/product/", {
+            let serverRes = await fetch("http://localhost:3003/products/", {
                 method: method,
                 body: product,
                 headers: {
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGRjNWYwNmIzNTgxNzAwMTVjMjI3MDUiLCJpYXQiOjE2MjUwNTQ5ODIsImV4cCI6MTYyNjI2NDU4Mn0.JwwVnNEQqYHceQ2fscSxdyITJxc4U7GeQFaHsd0Vs0Y",
                     "Content-Type": "application/json",
                 }
             })
             let serverData = await serverRes.json()
-            console.log(serverData)
+
+            console.log(serverData.id)
+            let productImage = getProductImage()
+            let uploadImage= await fetch("http://localhost:3003/products/"+serverData.id+"/upload", {
+                method: method,
+                body: productImage
+            })
+            let serverDataImage = await uploadImage.json()
+            console.log(serverDataImage)
             document.querySelector('form').reset()
-            showAlert('success', `${product.name} added successfully`)
+            showAlert('success', `${serverData.name} added successfully`)
             return
         }
 
         if (method === "PUT") {
             let product = getProducts()
-            let serverRes = await fetch("https://striveschool-api.herokuapp.com/api/product/" + prodId, {
+            let serverRes = await fetch("http://localhost:3003/products/" + prodId, {
                 method: method,
                 body: product,
                 headers: {
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGRjNWYwNmIzNTgxNzAwMTVjMjI3MDUiLCJpYXQiOjE2MjUwNTQ5ODIsImV4cCI6MTYyNjI2NDU4Mn0.JwwVnNEQqYHceQ2fscSxdyITJxc4U7GeQFaHsd0Vs0Y",
                     "Content-Type": "application/json",
                 }
             })
             let serverData = await serverRes.json()
             console.log(serverData)
-            showAlert('success', `${product.name} edited successfully`)
+            if(document.getElementById('prod_img').files[0]){
+                let productImage = getProductImage()
+                let uploadImage= await fetch("http://localhost:3003/products/"+serverData._id+"/upload", {
+                    method: "POST",
+                    body: productImage
+                })
+                let serverDataImage = await uploadImage.json()
+                console.log(serverDataImage)
+            }
+            showAlert('success', `${serverData.name} edited successfully`)
             
         }
     } catch (e) {
@@ -84,20 +100,19 @@ window.onload = () => {
 }
 
 async function generatePlaceholder(prodId) {
-    let serverRes = await fetch("https://striveschool-api.herokuapp.com/api/product/" + prodId, {
+    let serverRes = await fetch("http://localhost:3003/products/" + prodId, {
         method: "GET",
         headers: {
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGRjNWYwNmIzNTgxNzAwMTVjMjI3MDUiLCJpYXQiOjE2MjUwNTQ5ODIsImV4cCI6MTYyNjI2NDU4Mn0.JwwVnNEQqYHceQ2fscSxdyITJxc4U7GeQFaHsd0Vs0Y",
             "Content-Type": "application/json",
         }
     })
     let serverData = await serverRes.json()
-
+    console.log(serverData)
     document.getElementById('prod_name').value = serverData.name
     document.getElementById('prod_descr').value = serverData.description
     document.getElementById('prod_brand').value = serverData.brand
-    document.getElementById('prod_img').value = serverData.imageUrl
     document.getElementById('prod_price').value = serverData.price
+    document.getElementById('prod_category').value = serverData.category
 }
 
 async function deleteProd(e){
@@ -105,17 +120,12 @@ async function deleteProd(e){
 
         e.preventDefault()
         
-        serverRes = await fetch("https://striveschool-api.herokuapp.com/api/product/" + prodId, {
-            method: "DELETE",
-            headers: {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGRjNWYwNmIzNTgxNzAwMTVjMjI3MDUiLCJpYXQiOjE2MjUwNTQ5ODIsImV4cCI6MTYyNjI2NDU4Mn0.JwwVnNEQqYHceQ2fscSxdyITJxc4U7GeQFaHsd0Vs0Y",
-                "Content-Type": "application/json",
-            }
+        serverRes = await fetch("http://localhost:3003/products/" + prodId, {
+            method: "DELETE"
         })
         let serverData = await serverRes.json()
         console.log(serverData)
         showAlert('success', `Product deleted successfully`)
-        // window.location.replace(`index.html`)
         return
     } catch (err) {
         showAlert('danger', `${err} not deleted.`)

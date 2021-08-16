@@ -1,8 +1,4 @@
-const END_POINT = "https://striveschool-api.herokuapp.com/api/product/"
-const headers = new Headers({
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGRjNWYwNmIzNTgxNzAwMTVjMjI3MDUiLCJpYXQiOjE2MjUwNTQ5ODIsImV4cCI6MTYyNjI2NDU4Mn0.JwwVnNEQqYHceQ2fscSxdyITJxc4U7GeQFaHsd0Vs0Y",
-    "Content-Type": "application/json",
-})
+const END_POINT = "http://localhost:3003/products/"
 
 let windowStorage = window.localStorage
 
@@ -17,7 +13,7 @@ window.onload = () => {
 async function getProduct(prod_Id) {
     try {
         removeSpinner()
-        let productsJSON = await fetch(END_POINT + prod_Id, {headers})
+        let productsJSON = await fetch(END_POINT + prod_Id)
         let product = await productsJSON.json()
         console.log(product)
 

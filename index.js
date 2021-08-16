@@ -6,15 +6,10 @@ let total = 0
 
 async function getProducts() {
     try {
-        let productsJSON = await fetch("https://striveschool-api.herokuapp.com/api/product/", {
-            headers: {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGRjNWYwNmIzNTgxNzAwMTVjMjI3MDUiLCJpYXQiOjE2MjkxMTIwMjYsImV4cCI6MTYzMDMyMTYyNn0.G_hffVk5eDogUxWQkR8q1WpobP-mRwhSPsH1njZH09c",
-
-            }
-        })
+        let productsJSON = await fetch("http://localhost:3003/products/")
         let productsList = await productsJSON.json()
-        productsList.shift()
-
+        // productsList.shift()
+        console.log(productsList)
         let brandList = getBrands(productsList)
         createSections(brandList)
         appendCards(productsList)
@@ -128,13 +123,7 @@ function createCartItemHTML(product) {
 
 async function getProduct(prod_Id) {
     try {
-        let productsJSON = await fetch("https://striveschool-api.herokuapp.com/api/product/" + prod_Id, {
-            headers: {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGRjNWYwNmIzNTgxNzAwMTVjMjI3MDUiLCJpYXQiOjE2MjkxMTIwMjYsImV4cCI6MTYzMDMyMTYyNn0.G_hffVk5eDogUxWQkR8q1WpobP-mRwhSPsH1njZH09c",
-
-                "Content-Type": "application/json",
-            }
-        })
+        let productsJSON = await fetch("http://localhost:3003/products/" + prod_Id)
         let product = await productsJSON.json()
         return product
     } catch (e) {
