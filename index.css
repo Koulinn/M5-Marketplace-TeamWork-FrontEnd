@@ -1,0 +1,112 @@
+.badge{
+    position: absolute;
+    left: 1.5rem;
+    top: 2rem;
+  }
+
+.card{
+  border: none;
+  margin-top: 32px;
+  transition: all 1s ease;
+}
+
+.card:hover{
+  background: radial-gradient(90.16% 143.01% at 15.32% 21.04%, rgba(165, 239, 255, 0.5) 0%, rgba(110, 191, 244, 0.247917) 77.08%, rgba(70, 144, 213, 0) 100%);
+  background-blend-mode: overlay, normal;
+  backdrop-filter: blur(80px);
+  border-radius: 16px;
+
+}
+
+a:hover{
+  text-decoration: none;
+  font-weight: 700;
+  color: black;
+}
+
+section{
+  margin-top: 64px;
+}
+.card img{
+  height: 256px;
+  object-fit: cover;
+}
+
+.card p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.jumbotron{
+  background-image:
+                linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(196, 228, 201, 0.589)),
+                url('https://images.pexels.com/photos/3945673/pexels-photo-3945673.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
+}
+
+#shoppingCart{
+  position: fixed;
+  top: 4rem;
+  background-color: aqua;
+  z-index: 100;
+  cursor: pointer;
+  background: radial-gradient(90.16% 143.01% at 15.32% 21.04%, rgba(165, 239, 255, 0.5) 0%, rgba(110, 191, 244, 0.247917) 77.08%, rgba(70, 144, 213, 0) 100%);
+  background-blend-mode: overlay, normal;
+  backdrop-filter: blur(80px);
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+ul{
+  list-style: none;
+}
+
+a{
+  color: black;
+  transition: all 1s ease;
+}
+
+.removeBtn{
+  width: 32px;
+  height: 32px;
+}
+
+#totalPrice{
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.removeBtn{
+  background:none;
+  border: none;
+  margin-left: 16px;
+}
+
+.basketProdName{
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.collapse{
+  width: 312px;
+}
+
+.buyNowBtn{
+  transition: all .5s ease;
+}
+
+.buyNowBtn:active {
+  background: radial-gradient(90.16% 143.01% at 15.32% 21.04%, rgba(165, 239, 255, 0.5) 0%, rgba(110, 191, 244, 0.247917) 77.08%, rgba(70, 144, 213, 0) 100%) !important;
+  background-blend-mode: overlay, normal;
+  backdrop-filter: blur(80px);
+  color: black !important;
+  font-weight: 700;
+}
+
+a >span {
+  transition: all 1s ease;
+}
