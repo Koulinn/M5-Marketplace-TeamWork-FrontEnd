@@ -34,6 +34,10 @@ async function insertProduct(e) {
         e.preventDefault()
         if (method === "POST") {
 
+            if(!document.getElementById('prod_img').files[0]){
+                showAlert('danger', `You must add an image`)
+                return
+            }
             let product = getProducts()
             let serverRes = await fetch("http://localhost:3003/products/", {
                 method: method,
@@ -44,17 +48,27 @@ async function insertProduct(e) {
             })
             let serverData = await serverRes.json()
 
-            console.log(serverData.id)
-            let productImage = getProductImage()
-            let uploadImage= await fetch("http://localhost:3003/products/"+serverData.id+"/upload", {
-                method: method,
-                body: productImage
-            })
-            let serverDataImage = await uploadImage.json()
-            console.log(serverData)
-            document.querySelector('form').reset()
-            showAlert('success', `${serverData.id} added successfully`)
-            return
+            if(serverData.success === false){
+                showAlert('danger', `${serverData.msg.errorList.errors[0].msg}`)
+                
+            } else {    
+                console.log(serverData.id)
+                let productImage = getProductImage()
+                let uploadImage= await fetch("http://localhost:3003/products/"+serverData.id+"/upload", {
+                    method: method,
+                    body: productImage
+                })
+                let serverDataImage = await uploadImage.json()
+                console.log(serverData)
+                if(serverDataImage.success === false){
+                    showAlert('danger', `${serverData.msg.errorList.errors[0].msg}`)
+                } else {
+                    document.querySelector('form').reset()
+                    showAlert('success', `${serverData.id} added successfully`)
+
+                }
+                
+            }
         }
 
         if (method === "PUT") {
