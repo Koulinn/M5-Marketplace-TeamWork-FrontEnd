@@ -51,9 +51,9 @@ async function insertProduct(e) {
                 body: productImage
             })
             let serverDataImage = await uploadImage.json()
-            console.log(serverDataImage)
+            console.log(serverData)
             document.querySelector('form').reset()
-            showAlert('success', `${serverData.name} added successfully`)
+            showAlert('success', `${serverData.id} added successfully`)
             return
         }
 
@@ -123,8 +123,8 @@ async function deleteProd(e){
         serverRes = await fetch("http://localhost:3003/products/" + prodId, {
             method: "DELETE"
         })
-        let serverData = await serverRes.json()
-        console.log(serverData)
+       // let serverData = await serverRes.json()
+       // console.log(serverData)
         showAlert('success', `Product deleted successfully`)
         return
     } catch (err) {
